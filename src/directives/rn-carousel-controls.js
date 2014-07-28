@@ -1,6 +1,6 @@
 angular.module('angular-carousel')
-
-.directive('rnCarouselControls', [function() {
+.value('rnCarouselClickReset', {value: false})
+.directive('rnCarouselControls', ['rnCarouselClickReset', function(rnCarouselClickReset) {
   return {
     restrict: 'A',
     replace: true,
@@ -10,9 +10,11 @@ angular.module('angular-carousel')
     },
     link: function(scope, element, attrs) {
       scope.prev = function() {
+        rnCarouselClickReset.value = true
         scope.index--;
       };
       scope.next = function() {
+        rnCarouselClickReset.value = true
         scope.index++;
       };
     },
