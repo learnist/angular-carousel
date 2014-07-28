@@ -1,6 +1,6 @@
 /**
  * Angular Carousel - Mobile friendly touch carousel for AngularJS
- * @version v0.2.0 - 2014-06-10
+ * @version v0.2.0 - 2014-07-28
  * @link http://revolunet.github.com/angular-carousel
  * @author Julien Bouquillon <julien@revolunet.com>
  * @license MIT License, http://www.opensource.org/licenses/MIT
@@ -19,16 +19,20 @@ angular.module('angular-carousel', [
 
 angular.module('angular-carousel')
 
-.directive('rnCarouselAutoSlide', ['$interval', function($interval) {
+.directive('rnCarouselAutoSlide', ['$interval', 'rnCarouselClickReset', function($interval, rnCarouselClickReset) {
   return {
     restrict: 'A',
     link: function(scope, element, attrs) {
       var delay = Math.round(parseFloat(attrs.rnCarouselAutoSlide) * 1000);
       $interval(function(){
-        if (scope.indicatorIndex < scope.carouselIndicatorArray.length -1) {
-          scope.indicatorIndex++;
+        if (rnCarouselClickReset.value) {
+          rnCarouselClickReset.value = false;
         } else {
-          scope.indicatorIndex = 0;
+          if (scope.indicatorIndex < scope.carouselIndicatorArray.length -1) {
+            scope.indicatorIndex++;
+          } else {
+            scope.indicatorIndex = 0;
+          }
         }
       }, delay);
     }
@@ -36,8 +40,8 @@ angular.module('angular-carousel')
 }]);
 
 angular.module('angular-carousel')
-
-.directive('rnCarouselControls', [function() {
+.value('rnCarouselClickReset', {value: false})
+.directive('rnCarouselControls', ['rnCarouselClickReset', function(rnCarouselClickReset) {
   return {
     restrict: 'A',
     replace: true,
@@ -47,9 +51,11 @@ angular.module('angular-carousel')
     },
     link: function(scope, element, attrs) {
       scope.prev = function() {
+        rnCarouselClickReset.value = true
         scope.index--;
       };
       scope.next = function() {
+        rnCarouselClickReset.value = true
         scope.index++;
       };
     },
