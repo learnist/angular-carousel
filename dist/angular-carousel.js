@@ -87,7 +87,7 @@ angular.module('angular-carousel')
 
     angular.module('angular-carousel')
 
-    .directive('rnCarousel', ['$swipe', '$window', '$document', '$parse', '$compile', function($swipe, $window, $document, $parse, $compile) {
+    .directive('rnCarousel', ['$swipe', '$window', '$document', '$parse', '$compile', 'rnCarouselClickReset', function($swipe, $window, $document, $parse, $compile, rnCarouselClickReset) {
         // internal ids to allow multiple instances
         var carouselId = 0,
             // used to compute the sliding speed
@@ -320,6 +320,9 @@ angular.module('angular-carousel')
                     }
 
                     function goToSlide(i, animate) {
+                        if (rnCarouselClickReset.value) {
+                          return rnCarouselClickReset.value = false;
+                        }
                         if (isNaN(i)) {
                             i = scope.carouselIndex;
                         }
