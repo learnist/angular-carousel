@@ -164,14 +164,14 @@
                     }
 
                     function getCarouselWidth() {
-                       // container.css('width', 'auto');
-                        // var slides = carousel.children();
-                        // if (slides.length === 0) {
-                        //     containerWidth = carousel[0].getBoundingClientRect().width;
-                        // } else {
-                        //     containerWidth = slides[0].getBoundingClientRect().width;
-                        // }
-                        containerWidth = $window.innerWidth;
+                        container.css('width', 'auto');
+                        var slides = carousel.children();
+                        if (slides.length === 0) {
+                            containerWidth = carousel[0].getBoundingClientRect().width;
+                        } else {
+                            containerWidth = slides[0].getBoundingClientRect().width;
+                        }
+                        // containerWidth = $window.innerWidth;
                         // console.log('getCarouselWidth', containerWidth);
                         return Math.floor(containerWidth);
                     }
